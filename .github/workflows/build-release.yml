@@ -21,10 +21,17 @@ jobs:
       - name: Install tools
         run: npm install --no-audit --no-fund
 
+      - name: Set the version and your repository name
+        env:
+          RELEASE_VERSION: 1.0.${{ github.run_number }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: node scripts/set-release.js
+
       - name: Build the installer
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
-        run: npx electron-builder --win nsis --publish never -c.extraMetadata.version=1.0.${{ github.run_number }} -c.publish.owner=${{ github.repository_owner }} -c.publish.repo=${{ github.event.repository.name }}
+        run: npx electron-builder --win nsis --publish never
 
       - name: Show what was built
         run: Get-ChildItem dist | Select-Object Name, Length
