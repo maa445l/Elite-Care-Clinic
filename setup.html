@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Elite Care Clinic setup</title>
+<style>
+body{font:15px/1.5 "Segoe UI",system-ui,sans-serif;margin:0;padding:24px;background:#eef4f7;color:#12303d}
+h1{font-size:20px;margin:0 0 4px;color:#00789a}p{margin:6px 0}
+.card{background:#fff;border:1px solid #d8e4ea;border-radius:10px;padding:14px;margin:12px 0}
+label.opt{display:block;cursor:pointer}label.opt b{display:block}
+input[type=text]{width:100%;padding:8px;border:1px solid #c5d4db;border-radius:6px;font-size:15px;box-sizing:border-box;margin-top:4px}
+button{padding:9px 18px;border-radius:999px;border:1px solid #c5d4db;background:#fff;font-size:14px;cursor:pointer}
+button.pri{background:#00789a;color:#fff;border-color:#00789a}.row{display:flex;gap:8px;align-items:center;margin-top:10px}
+small{color:#5b7480}#err{color:#b3372f;min-height:20px}
+</style></head><body>
+<h1>Elite Care Clinic</h1>
+<p>What should this computer do? You only choose this once.</p>
+<div class="card"><label class="opt"><input type="radio" name="m" value="server" checked> <b>This computer is the clinic server</b><small>It keeps all the clinic data. Choose this on ONE computer only, the one that stays switched on.</small></label>
+<div id="srv" style="margin-top:10px">
+<label>Backup folder (an external drive is best)<input type="text" id="bk" placeholder="Leave empty to use the default folder"></label>
+<div class="row"><button type="button" id="pick">Choose folder...</button></div>
+<label class="opt" style="margin-top:10px"><input type="checkbox" id="auto" checked> Start automatically when Windows starts</label></div></div>
+<div class="card"><label class="opt"><input type="radio" name="m" value="client"> <b>This computer connects to the clinic server</b><small>Choose this on the other clinic computers.</small></label>
+<div id="cli" style="margin-top:10px;display:none"><label>Address of the server computer<input type="text" id="addr" placeholder="For example 192.168.1.50"></label>
+<small>The server computer shows this address under File, Show connection address.</small></div></div>
+<div id="err"></div>
+<div class="row"><button class="pri" id="go">Continue</button><button id="no">Cancel</button></div>
+<script>
+const $=id=>document.getElementById(id);
+function upd(){const s=document.querySelector('input[name=m]:checked').value=='server';$('srv').style.display=s?'':'none';$('cli').style.display=s?'none':''}
+document.querySelectorAll('input[name=m]').forEach(r=>r.onchange=upd);
+$('pick').onclick=async()=>{const d=await setupApi.pick();if(d)$('bk').value=d};
+$('no').onclick=()=>setupApi.cancel();
+$('go').onclick=()=>{const m=document.querySelector('input[name=m]:checked').value;
+ if(m=='client'){const a=$('addr').value.trim();if(!a){$('err').textContent='Type the address of the server computer.';return}
+  setupApi.save({mode:'client',address:a})}
+ else setupApi.save({mode:'server',backupDir:$('bk').value.trim()||null,autoStart:$('auto').checked,port:3737})};
+</script></body></html>

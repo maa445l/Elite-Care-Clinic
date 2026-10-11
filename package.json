@@ -1,0 +1,63 @@
+{
+  "name": "elite-care-clinic",
+  "productName": "Elite Care Clinic",
+  "version": "1.0.0",
+  "description": "Elite Care Clinic: offline clinic software for Windows",
+  "main": "main.js",
+  "author": "Elite Care Clinic",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/index.js",
+    "dist": "electron-builder --win nsis --publish never",
+    "release": "electron-builder --win nsis --publish always"
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "pk.elitecare.clinic",
+    "productName": "Elite Care Clinic",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "setup.html",
+      "reset.html",
+      "server/**",
+      "web/**",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Elite Care Clinic",
+      "artifactName": "Elite-Care-Clinic-Setup-${version}.exe"
+    },
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
+    }
+  },
+  "dependencies": {
+    "electron-updater": "6.3.9"
+  }
+}

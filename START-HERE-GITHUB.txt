@@ -1,0 +1,14 @@
+Starting a new GitHub repository for Elite Care Clinic
+=======================================================
+1. github.com > New repository > name: elite-care-clinic > Public > Create repository.
+2. Press "uploading an existing file". Open THIS folder, select everything inside it
+   (including the hidden .github folder if your browser allows it) and drag it in.
+   Press "Commit changes".
+3. If the .github folder did not upload: Add file > Create new file, type
+   .github/workflows/build-release.yml as the name, paste the contents of the
+   file build-release.yml that came with this package, and Commit changes.
+4. Open the Actions tab. If asked, enable workflows. Wait for the green tick (8 to 15 minutes).
+5. Open Releases on the right: download the file ending in .exe.
+   If the last step failed, open the run, scroll to Artifacts, download "installer".
+
+If anything is red, open the step, copy the last 30 lines and send them to me.

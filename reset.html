@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Reset owner password</title>
+<style>body{font:15px/1.5 "Segoe UI",system-ui,sans-serif;margin:0;padding:22px;background:#eef4f7;color:#12303d}h1{font-size:18px;margin:0 0 8px;color:#00789a}
+input{width:100%;padding:8px;border:1px solid #c5d4db;border-radius:6px;font-size:15px;box-sizing:border-box;margin:4px 0 10px}
+button{padding:9px 18px;border-radius:999px;border:1px solid #c5d4db;background:#fff;font-size:14px;cursor:pointer}button.pri{background:#00789a;color:#fff;border-color:#00789a}
+#err{color:#b3372f;min-height:20px}</style></head><body>
+<h1>Reset the owner password</h1><p>Use this only if the owner has forgotten the password. Type a new one (8 or more characters).</p>
+<label>New password<input type="password" id="a"></label><label>Repeat it<input type="password" id="b"></label><div id="err"></div>
+<button class="pri" id="go">Set new password</button> <button id="no">Cancel</button>
+<script>const $=i=>document.getElementById(i);$('no').onclick=()=>resetApi.cancel();
+$('go').onclick=async()=>{if($('a').value!==$('b').value){$('err').textContent='The two passwords do not match.';return}
+const r=await resetApi.save($('a').value);if(r&&r.error)$('err').textContent=r.error};</script></body></html>
